@@ -15,11 +15,10 @@ def preprocess_data(data):
     data.__delitem__("PassengerId")
     data.__delitem__("Name")
     data.__delitem__("Ticket")
+    data.__delitem__("Age")
     data.__delitem__("SibSp")
     data.__delitem__("Parch")
-    data.__delitem__("Fare")
     data = data.fillna(data.mean())
-    print(data[1:8])
 
     pclass_converted = pd.get_dummies(data["Pclass"], prefix="is")
     embarked_converted = pd.get_dummies(data["Embarked"], prefix="is")
@@ -52,11 +51,11 @@ def train(data_norm, data_label):
     best_classifier = None
 
     pd.set_option("display.max_rows", 500)
-    for i in range(0, 100):
+    for i in range(0, 50):
         train_data_input = data_norm[data_norm.columns[1:12]]
 
         # data_train, data_test, labels_train, labels_test = train_test_split(train_data_input, train_data_label, test_size=0.20, stratify=train_data_label)
-        classifier = neural_network.MLPClassifier(hidden_layer_sizes=[10, 5], learning_rate_init=0.001)
+        classifier = neural_network.MLPClassifier(hidden_layer_sizes=[10, 5], max_iter=1000, learning_rate_init=0.001)
 
         kf = StratifiedKFold(n_splits=10, shuffle=True)
         mean_accuracy = 0
@@ -79,7 +78,6 @@ def train(data_norm, data_label):
 
 
 # -----------------------------------------  main -------------------------------------
-#  TODO: Usar matriz de correspondencia
 
 
 def __main__():
