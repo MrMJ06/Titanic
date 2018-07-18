@@ -1,16 +1,10 @@
 import pandas as pd
 from sklearn import tree
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import f1_score
-from sklearn.metrics import recall_score
-from sklearn.metrics import precision_score
 import numpy as np
 import graphviz
-from sklearn.cross_validation import StratifiedShuffleSplit
+from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.metrics import classification_report
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import ExtraTreesClassifier
-from sklearn.model_selection import StratifiedKFold
+
 
 # -----------------------------------------  main -------------------------------------
 #  TODO: Usar matriz de correspondencia
@@ -49,15 +43,16 @@ def __main__():
 
     pd.set_option('display.max_columns', 20)
 
-    split = StratifiedShuffleSplit(labels, test_size=0.2, n_iter=1)
+    split = StratifiedShuffleSplit(labels, test_size=0.2, n_iter=10)
 
     best_clf = None
+    clf = tree.DecisionTreeClassifier(max_depth=5)
 
     for train_index, test_index in split:
         X_train, y_train = np.array(train_data)[train_index],  np.array(labels)[train_index]
         X_test, y_test = np.array(train_data)[test_index],  np.array(labels)[test_index]
 
-        clf = tree.DecisionTreeClassifier(max_depth=3)
+
         clf.fit(X_train, y_train)
 
         y_pred = clf.predict(X_test)

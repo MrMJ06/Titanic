@@ -15,9 +15,6 @@ def preprocess_data(data):
     data.__delitem__("PassengerId")
     data.__delitem__("Name")
     data.__delitem__("Ticket")
-    data.__delitem__("Age")
-    data.__delitem__("SibSp")
-    data.__delitem__("Parch")
     data = data.fillna(data.mean())
 
     pclass_converted = pd.get_dummies(data["Pclass"], prefix="is")
