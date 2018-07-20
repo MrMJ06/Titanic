@@ -1,5 +1,9 @@
 import pandas as pd
-
+import KNNImplementation
+import DecissionTreeImplemetation
+import LogisticRegressorImplementation
+import NaiveBayesImplementation
+import neuralNetworkImplementation
 # -----------------------------------------  main -------------------------------------
 
 
@@ -14,6 +18,7 @@ def preprocess_data(data):
     data.__delitem__("Age")
     data.__delitem__("SibSp")
     data.__delitem__("Parch")
+
 
     pclass_converted = pd.get_dummies(data["Pclass"], prefix="is")
     sex_converted = pd.get_dummies(data["Sex"], prefix="is")
@@ -39,13 +44,28 @@ def preprocess_data(data):
 
 def __main__():
 
-    train_data = pd.read_csv("resources/train.csv")
-    train_data = preprocess_data(train_data)
-    pd.set_option('display.max_columns', 20)
+    tree_result = DecissionTreeImplemetation.__main__()
+    knn_result = KNNImplementation.__main__()
+    logistic_result = LogisticRegressorImplementation.__main__()
+    naive_result = NaiveBayesImplementation.__main__()
+    neural_result = neuralNetworkImplementation.__main__()
 
-    print(train_data.corr()["Survived"])
-    print(train_data.describe())
+    total_result = tree_result["Survived"] + knn_result["Survived"] + logistic_result["Survived"] + naive_result["Survived"] + neural_result["Survived"]
+    total_result = total_result > 2
+    total_result = total_result.astype(int)
 
-    train_data.to_csv(path_or_buf="process_train.csv", index=False)
+    print(total_result)
+
+    test_data = pd.read_csv("resources/test.csv")
+
+    labels = test_data["PassengerId"]
+
+    dictionary = {'PassengerId': labels, 'Survived': total_result}
+    result = pd.DataFrame(data=dictionary)
+
+    print(result)
+
+    result[result.columns].to_csv(path_or_buf="results.csv", index=False)
+
 
 __main__()

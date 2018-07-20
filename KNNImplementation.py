@@ -86,9 +86,11 @@ def __main__():
     predictions = best_clas.predict(test_data_norm)
     dictionary = {'PassengerId': labels, 'Survived': predictions}
     result = pd.DataFrame(data=dictionary)
-    print(result.describe())
+    # print(result.describe())
 
-    result[result.columns].to_csv(path_or_buf="results.csv", index=False)
+    # result[result.columns].to_csv(path_or_buf="results.csv", index=False)
+
+    return result
 
 
 __main__()

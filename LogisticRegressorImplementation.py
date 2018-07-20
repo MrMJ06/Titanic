@@ -87,8 +87,10 @@ def __main__():
 
     dictionary = {'PassengerId': ids, 'Survived': results}
     result = pd.DataFrame(data=dictionary)
-    print(result.describe())
+    # print(result.describe())
 
-    result[result.columns].to_csv(path_or_buf="results.csv", index=False)
+    # result[result.columns].to_csv(path_or_buf="results.csv", index=False)
+
+    return result
 
 __main__()

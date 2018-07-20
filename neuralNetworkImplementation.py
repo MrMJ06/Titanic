@@ -87,14 +87,16 @@ def __main__():
     test_data_norm = preprocess_data(test_data)
     print(train_data_norm.describe())
     print(test_data_norm.describe())
-    classifier = train(train_data_norm, train_data_label, 50)
+    classifier = train(train_data_norm, train_data_label, 25)
 
     predictions = classifier.predict(test_data_norm)
     dictionary = {'PassengerId': labels, 'Survived': predictions}
     result = pd.DataFrame(data=dictionary)
     print(result.describe())
 
-    result[result.columns].to_csv(path_or_buf="results.csv", index=False)
+    # result[result.columns].to_csv(path_or_buf="results.csv", index=False)
+
+    return result
 
 
 __main__()
